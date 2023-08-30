@@ -768,6 +768,8 @@ func DefaultMempoolConfig() *MempoolConfig {
 		MaxTxsBytes: 1024 * 1024 * 1024, // 1GB
 		CacheSize:   10000,
 		MaxTxBytes:  1024 * 1024, // 1MB
+		// Note this is true to avoid re-processing invalid order transactions more than once.
+		KeepInvalidTxsInCache: true,
 	}
 }
 
