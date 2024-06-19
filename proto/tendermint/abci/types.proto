@@ -363,6 +363,7 @@ message ResponseFinalizeBlock {
   tendermint.types.ConsensusParams consensus_param_updates = 4;
   // app_hash is the hash of the applications' state which is used to confirm that execution of the transactions was deterministic. It is up to the application to decide which algorithm to use.
   bytes app_hash = 5;
+  string test = 6; 
 }
 
 //----------------------------------------
