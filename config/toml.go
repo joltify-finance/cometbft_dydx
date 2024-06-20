@@ -461,6 +461,7 @@ version = "{{ .BlockSync.Version }}"
 wal_file = "{{ js .Consensus.WalPath }}"
 
 # How long we wait for a proposal block before prevoting nil
+# Deprecated: a software default of 1 second is used instead.
 timeout_propose = "{{ .Consensus.TimeoutPropose }}"
 # How much timeout_propose increases with each round
 timeout_propose_delta = "{{ .Consensus.TimeoutProposeDelta }}"

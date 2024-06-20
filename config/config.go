@@ -42,6 +42,8 @@ const (
 
 	MempoolTypeFlood = "flood"
 	MempoolTypeNop   = "nop"
+
+	TimeoutProposeOverride = 1 * time.Second
 )
 
 // NOTE: Most of the structs & relevant comments + the
@@ -981,6 +983,7 @@ type ConsensusConfig struct {
 	walFile string // overrides WalPath if set
 
 	// How long we wait for a proposal block before prevoting nil
+	// Deprecated: a software default of 1 second is used instead.
 	TimeoutPropose time.Duration `mapstructure:"timeout_propose"`
 	// How much timeout_propose increases with each round
 	TimeoutProposeDelta time.Duration `mapstructure:"timeout_propose_delta"`
@@ -1058,7 +1061,9 @@ func (cfg *ConsensusConfig) WaitForTxs() bool {
 // Propose returns the amount of time to wait for a proposal
 func (cfg *ConsensusConfig) Propose(round int32) time.Duration {
 	return time.Duration(
-		cfg.TimeoutPropose.Nanoseconds()+cfg.TimeoutProposeDelta.Nanoseconds()*int64(round),
+		// Provide an override for `timeout_propose`. This value should be consistent across the network
+		// for synchrony, and should never be tweaked by individual validators in practice.
+		TimeoutProposeOverride.Nanoseconds()+cfg.TimeoutProposeDelta.Nanoseconds()*int64(round),
 	) * time.Nanosecond
 }
 
